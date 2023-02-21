@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValuesType} from './App';
+import {FilterValuesType, TaskType} from './App';
 import {SuperInput} from "./components/SuperInput";
 import {EditableSpan} from "./components/EditableSpan";
 import IconButton from '@mui/material/IconButton';
@@ -8,11 +8,7 @@ import Button from "@mui/material/Button";
 import Checkbox from '@mui/material/Checkbox';
 
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+
 
 type PropsType = {
     id: string
@@ -96,9 +92,9 @@ export function Todolist(props: PropsType) {
         </ul>
         <div>
 
-            <Button variant = {props.filter === 'all' ? "outlined" : "contained"} color="success" onClick={onAllClickHandler}>All</Button>
-            <Button variant = {props.filter === 'active' ? "outlined" : "contained"} color="success" onClick={onActiveClickHandler}>Active</Button>
-            <Button variant = {props.filter === 'completed' ? "outlined" : "contained"} color="success" onClick={onCompletedClickHandler}>Completed</Button>
+            <Button variant = {props.filter === 'all' ? "outlined" : "contained"} color="success" style={{margin: "3px"}} onClick={onAllClickHandler}>All</Button>
+            <Button variant = {props.filter === 'active' ? "outlined" : "contained"} color="success" style={{margin: "3px"}} onClick={onActiveClickHandler}>Active</Button>
+            <Button variant = {props.filter === 'completed' ? "outlined" : "contained"} color="success" style={{margin: "3px"}} onClick={onCompletedClickHandler}>Completed</Button>
 
 
 
