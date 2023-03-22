@@ -3,13 +3,12 @@ import {v1} from "uuid";
 
 
 
-export const tasksReducer = (state: TasksStateType, action: TsarTasksType) => {
+export const tasksReducer = (state: TasksStateType, action: TsarTasksType):TasksStateType => {
     switch (action.type) {
         case "NEW-TASKS-FOR-NEW-TODOLIST" : {
             return {...state, [action.payload.newTodoListId]: []}
         }
         case "EDIT-TASK" : {
-            // const editVal = {...tasks,[todolistId]: tasks[todolistId].map(el => el.id === taskId ? {...el, title: newTitle} : el)}
             return {...state,[action.payload.todolistId]: state[action.payload.todolistId].map(el => el.id === action.payload.taskId
                     ? {...el, title: action.payload.newTitle}
                     : el )}

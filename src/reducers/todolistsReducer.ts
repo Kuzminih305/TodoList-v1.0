@@ -23,6 +23,8 @@ export const todolistsReducer = (state: TodolistsType[], action: TsarType):Todol
     }
 }
 
+
+
 type TsarType = editTodoACType | addTodolist | removeTodolist | changeFilter
 
 
