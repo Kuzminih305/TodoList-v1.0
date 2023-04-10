@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
@@ -6,10 +6,9 @@ type PropsType = {
     callBack: (title:string) => void
 }
 
-export const SuperInput = (props: PropsType) => {
+export const SuperInput = memo((props: PropsType) => {
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
-
     const addTask = () => {
         let newTitle = title.trim();
         if (newTitle !== "") {
@@ -25,7 +24,9 @@ export const SuperInput = (props: PropsType) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        if (error !== null) {
+            setError(null);
+        }
         if (e.key === "Enter") {
             addTask();
         }
@@ -71,5 +72,5 @@ export const SuperInput = (props: PropsType) => {
 
         </div>
     );
-};
+});
 
