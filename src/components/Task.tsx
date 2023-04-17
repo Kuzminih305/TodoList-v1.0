@@ -12,6 +12,7 @@ type TaskPropsType = {
     changeTaskStatus: (todolistId: string ,taskId: string, status: TaskStatuses) => void
     editTask: (todolistId: string, taskId: string, newTitle: string) => void
     removeTask: (todolistId: string ,taskId: string) => void
+    disabled: boolean
 }
 
 const Task = memo(({
@@ -19,7 +20,8 @@ const Task = memo(({
                        todolistId,
                        changeTaskStatus,
                        editTask,
-                       removeTask
+                       removeTask,
+                       disabled
 
                    }: TaskPropsType) => {
 
@@ -40,10 +42,12 @@ const Task = memo(({
             <Checkbox
                 onChange={onChangeHandler}
                 checked={task.status === TaskStatuses.Completed}
+                disabled={disabled}
             />
             <EditableSpan oldTitle={task.title} callBack={editTaskHandler}/>
             <IconButton aria-label="delete"
-                        onClick={onClickHandler}>
+                        onClick={onClickHandler}
+                        disabled={disabled}>
                 <DeleteIcon/>
             </IconButton>
         </div>

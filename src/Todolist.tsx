@@ -9,8 +9,7 @@ import {TaskStatuses, TaskType} from "./api/api";
 import {FilterValuesType} from "./reducers/todolistsReducer";
 import {useAppDispatch} from "./state/store";
 import {getTasksTC} from "./reducers/tasksReducer";
-
-
+import {RequestStatusType} from "./reducers/appReducer";
 
 
 type PropsType = {
@@ -25,6 +24,7 @@ type PropsType = {
     removeTodolist: (id: string) => void
     editTask: (todolistId: string, taskId: string ,newTitle: string) => void
     editTodo: (todolistId: string, newTitle: string) => void
+    entityStatus: RequestStatusType
 }
 
 export const Todolist = memo((props: PropsType) => {
@@ -54,31 +54,22 @@ export const Todolist = memo((props: PropsType) => {
     let tasksForTodolist = props.tasks
 
     if (props.filter === "active") {
-        // tasksForTodolist = props.tasks.filter(t => !t.isDone);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New);
     }
     if (props.filter === "completed") {
-        // tasksForTodolist = props.tasks.filter(t => t.isDone);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed);
     }
-
-    // const removeTask = useCallback((taskId: string) => {
-    //     props.removeTask(props.id,taskId)
-    // },[props.removeTask,props.id])
-    // const changeTaskStatus = useCallback((taskId: string, newIsDone: boolean) => {
-    //     props.changeTaskStatus(props.id ,taskId, newIsDone);
-    // },[props.changeTaskStatus,props.id])
-    // const editTask = useCallback((taskId: string,newTitle:string) => {
-    //     props.editTask(props.id, taskId, newTitle)
-    // },[props.editTask,props.id])
-
     return <div>
         <h3>
         <EditableSpan oldTitle={props.title} callBack={editTodoHandler}/>
             <IconButton aria-label="delete"
-                        onClick={deleteTodolist}>
+                        onClick={deleteTodolist}
+                        disabled={props.entityStatus === 'loading'}>
                 <DeleteIcon/>
             </IconButton>
         </h3>
-            <SuperInput callBack={addTask}/>
+            <SuperInput callBack={addTask}
+            disabled={props.entityStatus === 'loading'}/>
         <ul>
             {
                 tasksForTodolist.map(t => {
@@ -90,6 +81,7 @@ export const Todolist = memo((props: PropsType) => {
                         changeTaskStatus={props.changeTaskStatus}
                         editTask={props.editTask}
                         removeTask={props.removeTask}
+                        disabled={props.entityStatus === 'loading'}
                     />
                     )
                 })

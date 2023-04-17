@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 
 type PropsType = {
     callBack: (title:string) => void
+    disabled?: boolean
 }
 
 export const SuperInput = memo((props: PropsType) => {
@@ -51,7 +52,7 @@ export const SuperInput = memo((props: PropsType) => {
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
                 error={!!error}
-
+                disabled={props.disabled}
             />
 
 
@@ -66,7 +67,8 @@ export const SuperInput = memo((props: PropsType) => {
             <Button size="small"
                     variant="contained"
                     onClick={addTask}
-                    style={buttonSettings}>+</Button>
+                    style={buttonSettings}
+                    disabled={props.disabled}>+</Button>
 
             {/*{error && <div className="error-message">{error}</div>}*/}
 

@@ -4,7 +4,7 @@ import {Todolist} from './Todolist';
 
 import {SuperInput} from "./components/SuperInput";
 import ButtonAppBar from "./ButtonAppBar";
-import {Container, Grid, Paper} from "@mui/material";
+import {Container, Grid, LinearProgress, Paper} from "@mui/material";
 import {
     changeFilterAC, createTodoListTC, deleteTodoListTC,
     FilterValuesType, getTodoListTC,
@@ -17,6 +17,7 @@ import {
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./state/store";
 import {TaskStatuses, TaskType} from "./api/api";
+import {ErrorSnackbar} from "./components/ErrorSnackBar";
 
 
 
@@ -28,7 +29,9 @@ function App() {
 
     const todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const status = useSelector<AppRootStateType>(state => state.app.status)
     const dispatch = useAppDispatch()
+
 
     useEffect( () => {
         dispatch(getTodoListTC())
@@ -61,7 +64,7 @@ function App() {
 
     const changeFilter = useCallback((todolistId: string ,value: FilterValuesType) => {
         dispatch(changeFilterAC(todolistId, value))
-    },[dispatch])
+    },[])
 
     const addTodolist = useCallback((title: string) => {
         const action = createTodoListTC(title)
@@ -71,7 +74,9 @@ function App() {
 
     return (
         <div className="App">
+           <ErrorSnackbar/>
             <ButtonAppBar/>
+            {status === 'loading' && <LinearProgress color="secondary" />}
             <Container fixed>
                 <Grid container style={{padding: "10px", justifyContent: "center"}}>
                     <SuperInput callBack={addTodolist}/>
@@ -97,6 +102,7 @@ function App() {
                                     removeTodolist={removeTodolist}
                                     editTask={editTask}
                                     editTodo={editTodo}
+                                    entityStatus={el.entityStatus}
                                 />
                                 </Paper>
                             </Grid>
